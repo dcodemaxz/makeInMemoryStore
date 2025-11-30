@@ -266,7 +266,11 @@ class InMemoryStore extends events.EventEmitter {
         const chatId = message?.key?.remoteJid;
         if (!chatId || !message?.key?.id) return;
         if (!this.messages[chatId]) this.messages[chatId] = {};
-        this.messages[chatId][message.key.id] = message;
+        const existingMessage = this.messages[chatId][message.key.id];
+        this.messages[chatId][message.key.id] = { 
+            ...existingMessage, // Properties of old messages (including pollCreationMessage)
+            ...message          // Properties of new message (update vote/timestamp)
+        };
         this.emit('messages.upsert', { messages: [message], type });
     }
 
@@ -512,11 +516,12 @@ function makeInMemoryStore(options) {
 module.exports = makeInMemoryStore;
 
 
-// Refreshing File After Recode/Editing
-let file = require.resolve(__filename)
+// Auto Reload On File Change
+//---------------------------------------------------------//
+const file = require.resolve(__filename);
 fs.watchFile(file, () => {
-    fs.unwatchFile(file)
-    console.log(`\n› [ ${chalk.black(chalk.bgBlue(" Update Files "))} ] ▸ ${__filename}`)
-    delete require.cache[file]
-    require(file)
-})
+    fs.unwatchFile(file);
+    delete require.cache[file];
+    require(file);
+    console.log(`\n› [ ${chalk.black(chalk.bgBlue(" Update Files "))} ] ▸ ${__filename}`);
+});

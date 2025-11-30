@@ -7,13 +7,13 @@
 
 ---
 
-#### ⚙️ Core Functionality
+### ⚙️ Core Functionality
 
 `makeInMemoryStore` functions as a temporary data store that operates entirely in memory. This means that **all stored data will be lost after the application process ends.** Make sure you understand these implications before using it in a production environment that requires data persistence.
 
 ---
 
-#### 📥 Installation
+### 📥 Installation
 
 To take advantage of the recommended *logging* features, make sure you have the `pino` module installed:
 
@@ -46,8 +46,8 @@ const store = makeInMemoryStore({
 // Example: store.groupMetadata(), store.messages(), store.contacts(), ~.
 ```
 
-#### 🤝 Contribution
+### 🤝 Contribution
 We welcome contributions in the form of bug reports, feature requests, or pull requests. Please submit them through the project's GitHub repository.
 
-#### ©️ License
+### ©️ License
 This script is originally made by dcodemaxz ( me )
